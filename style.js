@@ -12,6 +12,9 @@ pre {
 body {
   background-color: #1e1e1e;
   color: #e5c07b;
+
+  width: 1200px;
+  height: 800px;
 }
 
 code[class*="language-"],

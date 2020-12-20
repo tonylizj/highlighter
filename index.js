@@ -19,7 +19,6 @@ ${styles.text}
 </head><body><pre>`}${text}</pre></body></html>`;
 
 app.post('/', (req, res) => {
-  console.log(req.body);
   const code = req.body.text;
   const inputHtml = addSurround(prism.highlight(code, prism.languages.javascript, 'javascript'));
   nodeHtmlToImage({
@@ -33,6 +32,5 @@ app.post('/', (req, res) => {
 const server = app.listen(8000, () => {
   // const host = server.address().address;
   const { port } = server.address();
-
   console.log(`Express app listening at http://localhost:${port}`);
 });
