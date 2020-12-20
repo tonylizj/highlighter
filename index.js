@@ -29,11 +29,10 @@ const getPrediction = async (): Promise<void> => {
   }
 };
 
-
 `;
 
 const addSurround = (text) => `<head>
-<link rel=\"stylesheet\" href=\"prism.css\">
+<link rel=\"stylesheet\" href=\"style.css\">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> 
 </head>` + "<body><pre>" + text + "</pre></body>"
@@ -42,23 +41,20 @@ const addSurround = (text) => `<head>
 const html = addSurround(prism.highlight(code, prism.languages.javascript, 'javascript'));
 console.log(html);
 
-app.get('/prism.css', function(req, res) {
-  res.sendFile(__dirname + '/www/prism.css');
+app.get('/style.css', function(req, res) {
+  res.sendFile(__dirname + '/style.css');
+});
+
+app.get('/test', function(req, res) {
+  //console.log(req);
+  res.send(html);
 });
 
 app.get('/', function(req, res) {
+  //console.log(req);
   res.send(html);
-  screenshotter.fromHTML(
-    'This has been modified by injecting the HTML',
-    "test.png",
-    {inject: {
-        url: "https://en.wikipedia.org/wiki/Main_Page",
-        selector: {className: "mw-wiki-logo"}
-    }},
-    function(){
-        //an image of the HTML has been saved at ./test.png
-    }
-);
+  screenshotter.fromURL(req.protocol+"://"+req.headers.host + "/test", 'test.png');
+  //setTimeout(() => {res.download("./test.png", "test.png", (err) => {if (err) console.log(err)})}, 3000);
 });
 
 var server = app.listen(8000, function () {
