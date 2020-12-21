@@ -19,6 +19,9 @@ const addSurround = (text) => `${`<html><head>
 ${style_1.default}
 </style>
 </head><body><pre>`}${text}</pre></body></html>`;
+app.get('/', (req, res) => {
+    res.sendFile('html/sendPost.html', { root: '.' });
+});
 app.post('/', (req, res) => {
     const code = req.body.text;
     const inputHtml = addSurround(prismjs_1.default.highlight(code, prismjs_1.default.languages.javascript, 'javascript'));

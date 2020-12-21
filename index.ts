@@ -19,6 +19,10 @@ ${styles}
 </style>
 </head><body><pre>`}${text}</pre></body></html>`;
 
+app.get('/', (req, res) => {
+  res.sendFile('html/sendPost.html', { root: '.' });
+});
+
 app.post('/', (req, res) => {
   const code = req.body.text;
   const inputHtml = addSurround(prism.highlight(code, prism.languages.javascript, 'javascript'));
