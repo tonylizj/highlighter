@@ -30,7 +30,7 @@ app.post('/', (req, res) => {
   }));
 });
 
-const listenport = process.env.PORT || 5000;
+const listenport: number = parseInt(`${process.env.PORT}`, 10) || 5000;
 
 const server = app.listen(listenport, 'localhost', () => {
   const host = (server.address() as AddressInfo).address;
