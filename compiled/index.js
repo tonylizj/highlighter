@@ -30,7 +30,7 @@ app.post('/', (req, res) => {
     }));
 });
 const listenport = parseInt(`${process.env.PORT}`, 10) || 5000;
-const server = app.listen(listenport, 'localhost', () => {
+const server = app.listen(listenport, () => {
     const host = server.address().address;
     const { port } = server.address();
     console.log(`Express app listening at http://${host}:${port}`);

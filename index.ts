@@ -32,7 +32,7 @@ app.post('/', (req, res) => {
 
 const listenport: number = parseInt(`${process.env.PORT}`, 10) || 5000;
 
-const server = app.listen(listenport, 'localhost', () => {
+const server = app.listen(listenport, () => {
   const host = (server.address() as AddressInfo).address;
   const { port } = server.address() as AddressInfo;
   console.log(`Express app listening at http://${host}:${port}`);
