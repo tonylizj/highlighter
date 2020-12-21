@@ -30,7 +30,9 @@ app.post('/', (req, res) => {
   }));
 });
 
-const server = app.listen(8000, 'localhost', () => {
+const listenport = process.env.PORT || 5000;
+
+const server = app.listen(listenport, 'localhost', () => {
   const host = (server.address() as AddressInfo).address;
   const { port } = server.address() as AddressInfo;
   console.log(`Express app listening at http://${host}:${port}`);
