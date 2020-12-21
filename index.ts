@@ -25,6 +25,9 @@ app.post('/', (req, res) => {
   nodeHtmlToImage({
     output: './imageOutput/output.png',
     html: inputHtml,
+    puppeteerArgs: {
+      args: ['--no-sandbox'],
+    },
   }).then((() => {
     res.sendFile('imageOutput/output.png', { root: '.' });
   }));
