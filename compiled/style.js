@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const text = `
 /* PrismJS 1.22.0
 /**
@@ -137,5 +139,4 @@ pre[class*="language-"] {
   color: green;
 }
 `;
-
-exports.text = text;
+exports.default = text;

@@ -1,20 +1,21 @@
-const prism = require('prismjs');
-const express = require('express');
-const bodyParser = require('body-parser');
-const nodeHtmlToImage = require('node-html-to-image');
+import prism from 'prismjs';
+import express from 'express';
+import bodyParser from 'body-parser';
+import nodeHtmlToImage from 'node-html-to-image';
+import { AddressInfo } from 'net';
 
-const styles = require('./style');
+import styles from './style';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const addSurround = (text) => `${`<html><head>
+const addSurround = (text: string) => `${`<html><head>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> 
 <style>
-${styles.text}
+${styles}
 </style>
 </head><body><pre>`}${text}</pre></body></html>`;
 
@@ -22,15 +23,15 @@ app.post('/', (req, res) => {
   const code = req.body.text;
   const inputHtml = addSurround(prism.highlight(code, prism.languages.javascript, 'javascript'));
   nodeHtmlToImage({
-    output: './test.png',
+    output: './imageOutput/output.png',
     html: inputHtml,
   }).then((() => {
-    res.sendFile(`${__dirname}/test.png`);
+    res.sendFile('imageOutput/output.png', { root: '.' });
   }));
 });
 
 const server = app.listen(8000, () => {
-  // const host = server.address().address;
-  const { port } = server.address();
+  // const host = (server.address() as AddressInfo).address;
+  const { port } = server.address() as AddressInfo;
   console.log(`Express app listening at http://localhost:${port}`);
 });
