@@ -29,8 +29,8 @@ app.post('/', (req, res) => {
         res.sendFile('imageOutput/output.png', { root: '.' });
     }));
 });
-const server = app.listen(8000, () => {
-    // const host = (server.address() as AddressInfo).address;
+const server = app.listen(8000, 'localhost', () => {
+    const host = server.address().address;
     const { port } = server.address();
-    console.log(`Express app listening at http://localhost:${port}`);
+    console.log(`Express app listening at http://${host}:${port}`);
 });

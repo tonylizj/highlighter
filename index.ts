@@ -30,8 +30,8 @@ app.post('/', (req, res) => {
   }));
 });
 
-const server = app.listen(8000, () => {
-  // const host = (server.address() as AddressInfo).address;
+const server = app.listen(8000, 'localhost', () => {
+  const host = (server.address() as AddressInfo).address;
   const { port } = server.address() as AddressInfo;
-  console.log(`Express app listening at http://localhost:${port}`);
+  console.log(`Express app listening at http://${host}:${port}`);
 });
