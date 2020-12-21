@@ -14,9 +14,8 @@ pre {
 body {
   background-color: #1e1e1e;
   color: #e5c07b;
-
-  width: 1200px;
-  height: 800px;
+  width: max-content;
+  height: max-content;
 }
 
 code[class*="language-"],

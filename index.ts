@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
   res.sendFile('html/sendPost.html', { root: '.' });
 });
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   console.log('Received POST request.');
   const { text, lang }: { text: string, lang: string } = req.body;
   let inputHtml = '';
@@ -42,17 +42,17 @@ app.post('/', (req, res) => {
     console.log(`Invalid language specified: '${lang}'.`);
   }
   if (inputHtml !== '') {
-    nodeHtmlToImage({
-      output: './imageOutput/output.png',
+    // res.send(inputHtml);
+    const image = await nodeHtmlToImage({
       html: inputHtml,
       puppeteerArgs: {
         args: ['--no-sandbox'],
       },
-    }).then((() => {
-      res.sendFile('imageOutput/output.png', { root: '.' });
-    }));
+    });
+    res.writeHead(200, { 'Content-Type': 'image/png' });
+    res.end(image, 'binary');
   } else {
-    res.send(`Invalid language specified: '${lang}'. No result can be generated.`);
+    res.end(`Invalid language specified: '${lang}'. No result can be generated.`);
   }
 });
 

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -27,7 +36,7 @@ app.get('/', (req, res) => {
     console.log('Received GET request.');
     res.sendFile('html/sendPost.html', { root: '.' });
 });
-app.post('/', (req, res) => {
+app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Received POST request.');
     const { text, lang } = req.body;
     let inputHtml = '';
@@ -38,20 +47,20 @@ app.post('/', (req, res) => {
         console.log(`Invalid language specified: '${lang}'.`);
     }
     if (inputHtml !== '') {
-        node_html_to_image_1.default({
-            output: './imageOutput/output.png',
+        // res.send(inputHtml);
+        const image = yield node_html_to_image_1.default({
             html: inputHtml,
             puppeteerArgs: {
                 args: ['--no-sandbox'],
             },
-        }).then((() => {
-            res.sendFile('imageOutput/output.png', { root: '.' });
-        }));
+        });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(image, 'binary');
     }
     else {
-        res.send(`Invalid language specified: '${lang}'. No result can be generated.`);
+        res.end(`Invalid language specified: '${lang}'. No result can be generated.`);
     }
-});
+}));
 const listenport = parseInt(`${process.env.PORT}`, 10) || 5000;
 const server = app.listen(listenport, () => {
     const host = server.address().address;
