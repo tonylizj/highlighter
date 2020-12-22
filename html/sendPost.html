@@ -1,23 +1,37 @@
 <html>
+
 <head>
     <title>Send POST Request to This Server</title>
 </head>
 
 <body>
     <h1>
-        To use this API, send a POST request to this address 
-        with three parameters: "text" containing a code block, "lang" containing the name of a language, and "quality" containing one of ['medium', 'high', 'extreme'].
+        To use this API, send a POST request to this address
+        with three parameters: "text" containing a code block, "lang" containing one of
+    </h1>
+    <p>
+        ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua',
+        'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby',
+        'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker', 'markup', 'css',
+        'clike', 'javascript']
+    </p>
+    <h1>and "quality" containing one of</h1>
+    <p>['medium', 'high', 'extreme']</p>
+    <h1>
     </h1>
     <h1>
         Alternatively, use the form below.
     </h1>
     <h1>Language options supported: </h1>
     <h2>
-    Typescript, Javascript, C, C++, C#, Python, Java, Go, Julia, Kotlin, Haskell, Lisp, Lua, Makefile, Markdown, MATLAB, MongoDB, Objective-C, Pascal, Perl, PHP, R, Racket, Ruby, Rust, Scala, Scheme, Swift, Visual Basic, Markup, JSON, CSS, LaTeX, GraphQL, Docker.
+        Typescript, Javascript, C, C++, C#, Python, Java, Go, Julia, Kotlin, Haskell, Lisp, Lua, Makefile, Markdown,
+        MATLAB, MongoDB, Objective-C, Pascal, Perl, PHP, R, Racket, Ruby, Rust, Scala, Scheme, Swift, Visual Basic,
+        Markup, JSON, CSS, LaTeX, GraphQL, Docker.
     </h2>
     <form method="POST">
         <label for="text">Text:</label>
-        <textarea type="text" id="codeText" name="text", rows="30", cols="50">const foo = (): string => 'hello';</textarea><br><br>
+        <textarea type="text" id="codeText" name="text" , rows="30" ,
+            cols="50">const foo = (): string => 'hello';</textarea><br><br>
         <label for="lang">Language:</label>
         <select id="langText" name="lang">
             <option value="typescript">Typescript</option>
