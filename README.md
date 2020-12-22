@@ -1,5 +1,5 @@
 # highlighter
-API that Syntax Highlights Code
+API That Syntax Highlights Code
 
 Written in Node.JS and Express
 
