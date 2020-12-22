@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "node ./compiled",
-    "compile": "tsc",
-    "compile-and-start": "tsc && node ./compiled",
+    "compile": "tsc --newLine \"lf\"",
+    "compile-and-start": "tsc --newLine \"lf\" && node ./compiled",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
