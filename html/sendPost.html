@@ -18,6 +18,7 @@
     <h1>and "quality" containing one of</h1>
     <p>['medium', 'high', 'extreme']</p>
     <h1>
+        Character limits: medium: 4000, high: 2000, extreme: 1000
     </h1>
     <h1>
         Alternatively, use the form below.
@@ -26,11 +27,11 @@
     <h2>
         Typescript, Javascript, C, C++, C#, Python, Java, Go, Julia, Kotlin, Haskell, Lisp, Lua, Makefile, Markdown,
         MATLAB, MongoDB, Objective-C, Pascal, Perl, PHP, R, Racket, Ruby, Rust, Scala, Scheme, Swift, Visual Basic,
-        Markup, JSON, CSS, LaTeX, GraphQL, Docker.
+        Markup, JSON, CSS, LaTeX, GraphQL, Docker
     </h2>
     <form method="POST">
         <label for="text">Text:</label>
-        <textarea type="text" id="codeText" name="text", rows="30", cols="50", maxlength="2000">const foo = (): string => 'hello';</textarea><br><br>
+        <textarea type="text" id="codeText" name="text", rows="30", cols="50">const foo = (): string => 'hello';</textarea><br><br>
         <label for="lang">Language:</label>
         <select id="langText" name="lang">
             <option value="typescript">Typescript</option>
@@ -76,7 +77,7 @@
             <option value="extreme">Extreme</option>
         </select>
         <input type="submit" value="Submit">
-        <h2>Please wait for about 5 seconds after submitting for the image to load...</h2>
+        <h2>Please wait for about 2-20 seconds after submitting depending on length of code and quality for the image to load...</h2>
     </form>
 </body>
 

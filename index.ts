@@ -27,15 +27,60 @@ ${styles(fontSize)}
 
 const getGrammar = (langName: string) => prism.languages[langName];
 
+const mediumQualityValue = 20;
+const highQualityValue = 40;
+const extremeQualityValue = 80;
+
 const getQuality = (quality: string) => {
   if (quality === 'medium') {
-    return 20;
+    return mediumQualityValue;
   } if (quality === 'high') {
-    return 40;
+    return highQualityValue;
   } if (quality === 'extreme') {
-    return 80;
+    return extremeQualityValue;
   }
   return 0;
+};
+
+const mediumQualityLimit = 4000;
+const highQualityLimit = 2000;
+const extremeQualityLimit = 1000;
+
+const cutoffIndicator = (quality: string) => {
+  if (quality === 'medium') {
+    return `Code length cannot exceed ${mediumQualityLimit} characters for quality: '${quality}'. The input has been truncated.`;
+  } if (quality === 'high') {
+    return `Code length cannot exceed ${highQualityLimit} characters for quality: '${quality}'. The input has been truncated.`;
+  }
+  return `Code length cannot exceed ${extremeQualityLimit} characters for quality: '${quality}'. The input has been truncated.`;
+};
+
+const addCutOffIndicator = (text: string, quality: string) => {
+  const ind = cutoffIndicator(quality);
+  return `${ind}\n${text}${ind}\n`;
+};
+
+const processToHTML = (text: string, lang: string, quality: string, cutoff: boolean) => {
+  if (cutoff) {
+    return addSurround(prism.highlight(addCutOffIndicator(text, quality), getGrammar(lang), lang),
+      getQuality(quality));
+  }
+  return addSurround(prism.highlight(text, getGrammar(lang), lang), getQuality(quality));
+};
+
+const generateInputHTML = (text: string, lang: string, quality: string) => {
+  if (baseLanguages.includes(lang) || additionalSupportedLanguages.includes(lang)) {
+    const qualityNum = getQuality(quality);
+    if (qualityNum === mediumQualityValue && text.length > mediumQualityLimit) {
+      return processToHTML(text.substring(0, mediumQualityLimit), lang, quality, true);
+    } if (qualityNum === highQualityValue && text.length > mediumQualityLimit) {
+      return processToHTML(text.substring(0, highQualityLimit), lang, quality, true);
+    } if (qualityNum === extremeQualityValue && text.length > extremeQualityLimit) {
+      return processToHTML(text.substring(0, extremeQualityLimit), lang, quality, true);
+    }
+    return processToHTML(text, lang, quality, false);
+  }
+  return '';
 };
 
 app.get('/', (req, res) => {
@@ -44,18 +89,11 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
   const { text, lang, quality }: { text: string, lang: string, quality: string } = req.body;
-  let inputHtml = '';
-  if (baseLanguages.includes(lang) || additionalSupportedLanguages.includes(lang)) {
-    if (getQuality(quality) === 0) {
-      res.end(`Invalid quality specified: '${quality}'. No result can be generated.`);
-    } else {
-      inputHtml = addSurround(prism.highlight(text, getGrammar(lang), lang), getQuality(quality));
-    }
-  }
-  if (inputHtml !== '') {
+  const inputHTML = generateInputHTML(text, lang, quality);
+  if (inputHTML !== '') {
     // res.send(inputHtml);
     const image = await nodeHtmlToImage({
-      html: inputHtml,
+      html: inputHTML,
       puppeteerArgs: {
         args: ['--no-sandbox'],
       },
@@ -63,7 +101,7 @@ app.post('/', async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'image/png' });
     res.end(image, 'binary');
   } else {
-    res.end(`Invalid language specified: '${lang}'. No result can be generated.`);
+    res.end(`Invalid language specified: '${lang}' or invalid quality specified: '${quality}'. No result can be generated.`);
   }
 });
 
