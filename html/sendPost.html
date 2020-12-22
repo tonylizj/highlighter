@@ -6,7 +6,7 @@
 <body>
     <h1>
         To use this API, send a POST request to this address 
-        with two parameters: "text" containing a code block and "lang" containing the name of a language.
+        with three parameters: "text" containing a code block, "lang" containing the name of a language, and "quality" containing one of ['medium', 'high', 'extreme'].
     </h1>
     <h1>
         Alternatively, use the form below.
@@ -55,6 +55,12 @@
             <option value="latex">LaTeX</option>
             <option value="graphql">GraphQL</option>
             <option value="docker">Docker</option>
+        </select>
+        <label for="quality">Quality:</label>
+        <select id="qualityText" name="quality">
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="extreme">Extreme</option>
         </select>
         <input type="submit" value="Submit">
         <h2>Please wait for about 5 seconds after submitting for the image to load...</h2>

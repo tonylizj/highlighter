@@ -23,26 +23,40 @@ loadLanguages(additionalSupportedLanguages);
 const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
-const addSurround = (text) => `${`<html><head>
+const addSurround = (text, fontSize) => `${`<html><head>
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> 
 <style>
-${style_1.default}
+${style_1.default(fontSize)}
 </style>
 </head><body><pre>`}${text}</pre></body></html>`;
 const getGrammar = (langName) => prismjs_1.default.languages[langName];
+const getQuality = (quality) => {
+    if (quality === 'medium') {
+        return 20;
+    }
+    if (quality === 'high') {
+        return 40;
+    }
+    if (quality === 'extreme') {
+        return 80;
+    }
+    return 0;
+};
 app.get('/', (req, res) => {
     res.sendFile('html/sendPost.html', { root: '.' });
 });
 app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { text, lang } = req.body;
+    const { text, lang, quality } = req.body;
     let inputHtml = '';
     if (baseLanguages.includes(lang) || additionalSupportedLanguages.includes(lang)) {
-        inputHtml = addSurround(prismjs_1.default.highlight(text, getGrammar(lang), lang));
-    }
-    else {
-        // console.log(`Invalid language specified: '${lang}'.`);
+        if (getQuality(quality) === 0) {
+            res.end(`Invalid quality specified: '${quality}'. No result can be generated.`);
+        }
+        else {
+            inputHtml = addSurround(prismjs_1.default.highlight(text, getGrammar(lang), lang), getQuality(quality));
+        }
     }
     if (inputHtml !== '') {
         // res.send(inputHtml);

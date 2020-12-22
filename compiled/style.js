@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const text = `
+const text = (fontSize) => `
 /* PrismJS 1.22.0
 /**
  * Styling based on One Dark Pro theme: https://github.com/Binaryify/OneDark-Pro
@@ -8,8 +8,8 @@ const text = `
 
 pre {
   font-family: 'Fira Code', monospace;
-  font-size: 40px;
-  padding: 40px;
+  font-size: ${fontSize}px;
+  padding: ${fontSize}px;
 }
 
 body {
