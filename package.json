@@ -8,7 +8,8 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node ./compiled",
+    "start": "node --optimize_for_size --max_old_space_size=460 ./compiled",
+    "start-without-memory-limits": "node ./compiled",
     "compile": "tsc",
     "compile-and-start": "tsc && node ./compiled",
     "test": "echo \"Error: no test specified\" && exit 1"
