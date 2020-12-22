@@ -49,7 +49,7 @@ const getQuality = (quality) => {
 };
 const mediumQualityLimit = 4000;
 const highQualityLimit = 2000;
-const extremeQualityLimit = 1000;
+const extremeQualityLimit = 800;
 const cutoffIndicator = (quality) => {
     if (quality === 'medium') {
         return `Code length cannot exceed ${mediumQualityLimit} characters for quality: '${quality}'. The input has been truncated.`;
@@ -60,12 +60,12 @@ const cutoffIndicator = (quality) => {
     return `Code length cannot exceed ${extremeQualityLimit} characters for quality: '${quality}'. The input has been truncated.`;
 };
 const addCutOffIndicator = (text, quality) => {
-    const ind = cutoffIndicator(quality);
-    return `${ind}\n${text}${ind}\n`;
+    const ind = cutoffIndicator(quality).toLocaleUpperCase();
+    return `<span style="color:white">WARNING: ${ind}</span>\n${text}\n<span style="color:white">WARNING: ${ind}</span>`;
 };
 const processToHTML = (text, lang, quality, cutoff) => {
     if (cutoff) {
-        return addSurround(prismjs_1.default.highlight(addCutOffIndicator(text, quality), getGrammar(lang), lang), getQuality(quality));
+        return addSurround(addCutOffIndicator(prismjs_1.default.highlight(text, getGrammar(lang), lang), quality), getQuality(quality));
     }
     return addSurround(prismjs_1.default.highlight(text, getGrammar(lang), lang), getQuality(quality));
 };

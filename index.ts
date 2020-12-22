@@ -44,7 +44,7 @@ const getQuality = (quality: string) => {
 
 const mediumQualityLimit = 4000;
 const highQualityLimit = 2000;
-const extremeQualityLimit = 1000;
+const extremeQualityLimit = 800;
 
 const cutoffIndicator = (quality: string) => {
   if (quality === 'medium') {
@@ -56,13 +56,13 @@ const cutoffIndicator = (quality: string) => {
 };
 
 const addCutOffIndicator = (text: string, quality: string) => {
-  const ind = cutoffIndicator(quality);
-  return `${ind}\n${text}${ind}\n`;
+  const ind = cutoffIndicator(quality).toLocaleUpperCase();
+  return `<span style="color:white">WARNING: ${ind}</span>\n${text}\n<span style="color:white">WARNING: ${ind}</span>`;
 };
 
 const processToHTML = (text: string, lang: string, quality: string, cutoff: boolean) => {
   if (cutoff) {
-    return addSurround(prism.highlight(addCutOffIndicator(text, quality), getGrammar(lang), lang),
+    return addSurround(addCutOffIndicator(prism.highlight(text, getGrammar(lang), lang), quality),
       getQuality(quality));
   }
   return addSurround(prism.highlight(text, getGrammar(lang), lang), getQuality(quality));
