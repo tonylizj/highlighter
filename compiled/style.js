@@ -8,7 +8,8 @@ const text = `
 
 pre {
   font-family: 'Fira Code', monospace;
-  font-size: 20px;
+  font-size: 40px;
+  padding: 40px;
 }
 
 body {

@@ -3,7 +3,7 @@ import express from 'express';
 import nodeHtmlToImage from 'node-html-to-image';
 import { AddressInfo } from 'net';
 
-import styles from './style';
+import styles from './style'; // eslint-disable-line
 
 const loadLanguages: Function = require('prismjs/components/');
 
@@ -28,18 +28,16 @@ ${styles}
 const getGrammar = (langName: string) => prism.languages[langName];
 
 app.get('/', (req, res) => {
-  console.log('Received GET request.');
   res.sendFile('html/sendPost.html', { root: '.' });
 });
 
 app.post('/', async (req, res) => {
-  console.log('Received POST request.');
   const { text, lang }: { text: string, lang: string } = req.body;
   let inputHtml = '';
   if (baseLanguages.includes(lang) || additionalSupportedLanguages.includes(lang)) {
     inputHtml = addSurround(prism.highlight(text, getGrammar(lang), lang));
   } else {
-    console.log(`Invalid language specified: '${lang}'.`);
+    // console.log(`Invalid language specified: '${lang}'.`);
   }
   if (inputHtml !== '') {
     // res.send(inputHtml);

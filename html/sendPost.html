@@ -13,15 +13,51 @@
     </h1>
     <h1>Language options supported: </h1>
     <h2>
-    typescript, javascript, c, cpp, csharp, python, java, go, julia, kotlin, haskell, lisp, lua, makefile, markdown, matlab, mongodb, objectivec, pascal, perl, php, r, racket, ruby, rust, scala, scheme, swift, visual-basic, markup, json, css, clike, latex, graphql, docker.
+    Typescript, Javascript, C, C++, C#, Python, Java, Go, Julia, Kotlin, Haskell, Lisp, Lua, Makefile, Markdown, MATLAB, MongoDB, Objective-C, Pascal, Perl, PHP, R, Racket, Ruby, Rust, Scala, Scheme, Swift, Visual Basic, Markup, JSON, CSS, LaTeX, GraphQL, Docker.
     </h2>
-    <form method="POST" target="_blank">
+    <form method="POST">
         <label for="text">Text:</label>
         <textarea type="text" id="codeText" name="text", rows="30", cols="50">const foo = (): string => 'hello';</textarea><br><br>
         <label for="lang">Language:</label>
-        <input type="text" id="langText" name="lang" value="typescript"></input><br><br>
+        <select id="langText" name="lang">
+            <option value="typescript">Typescript</option>
+            <option value="javascript">Javascript</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="csharp">C#</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="go">Go</option>
+            <option value="julia">Julia</option>
+            <option value="kotlin">Kotlin</option>
+            <option value="haskell">Haskell</option>
+            <option value="lisp">Lisp</option>
+            <option value="lua">Lua</option>
+            <option value="makefile">Makefile</option>
+            <option value="markdown">Markdown</option>
+            <option value="matlab">MATLAB</option>
+            <option value="mongodb">MongoDB</option>
+            <option value="objectivec">Objective-C</option>
+            <option value="pascal">Pascal</option>
+            <option value="perl">Perl</option>
+            <option value="php">PHP</option>
+            <option value="r">R</option>
+            <option value="racket">Racket</option>
+            <option value="ruby">Ruby</option>
+            <option value="rust">Rust</option>
+            <option value="scala">Scala</option>
+            <option value="scheme">Scheme</option>
+            <option value="swift">Swift</option>
+            <option value="visual-basic">Visual Basic</option>
+            <option value="markup">Markup</option>
+            <option value="json">JSON</option>
+            <option value="css">CSS</option>
+            <option value="latex">LaTeX</option>
+            <option value="graphql">GraphQL</option>
+            <option value="docker">Docker</option>
+        </select>
         <input type="submit" value="Submit">
-        <h2>You may need to disable your pop-up blocker. Please wait for about 5 seconds after submitting for the image to load...</h2>
+        <h2>Please wait for about 5 seconds after submitting for the image to load...</h2>
     </form>
 </body>
 
