@@ -15,6 +15,7 @@ loadLanguages(additionalSupportedLanguages);
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/favicon.ico', express.static('images/favicon.ico'));
 
 const addSurround = (text: string, fontSize: number) => `${`<html><head>
 <link rel="stylesheet" href="style.css">
@@ -98,12 +99,18 @@ app.post('/', async (req, res) => {
         args: ['--no-sandbox'],
       },
     });
-    res.writeHead(200, { 'Content-Type': 'image/png' });
+    res.writeHead(200, { 'Content-disposition': 'attachment; filename=generatedPicture.png', 'Content-Type': 'image/png' });
     res.end(image, 'binary');
   } else {
     res.end(`Invalid language specified: '${lang}' or invalid quality specified: '${quality}'. No result can be generated.`);
   }
 });
+
+// app.post('/downloadHTML', async (req, res) => {
+//   const { text, lang, quality }: { text: string, lang: string, quality: string } = req.body;
+//   const inputHTML = generateInputHTML(text, lang, quality);
+//   res.send(inputHTML);
+// });
 
 const listenport: number = parseInt(`${process.env.PORT}`, 10) || 5000;
 
