@@ -2,7 +2,7 @@
 
 There are two parts:
 
-Discord Bot That Syntax Highlights Code
+## Discord Bot That Syntax Highlights Code
 
 Written in Node.JS with Discord.JS
 
@@ -14,7 +14,7 @@ npm start-bot
 For security reasons, you need to input your own bot token into a .env file. This is not provided.
 
 
-API That Syntax Highlights Code
+## API That Syntax Highlights Code
 
 Written in Node.JS and Express
 
