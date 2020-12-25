@@ -65,10 +65,17 @@ Github: https://github.com/tonylizj/highlighter
     }
 
     let useDefault = false;
+    let useDefaultQuality = false;
 
     if (splitCommand.length === 1) {
       userMessage.channel.send(`Arguments not given. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to typescript and medium...`);
       useDefault = true;
+      useDefaultQuality = true;
+    }
+
+    if (splitCommand.length === 1) {
+      userMessage.channel.send(`Only 1 argument given. This will be parsed as language. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to medium...`);
+      useDefaultQuality = true;
     }
 
     if (splitCommand.length > 3) {
@@ -83,12 +90,12 @@ Github: https://github.com/tonylizj/highlighter
 
     const language = useDefault ? 'typescript' : splitCommand[1];
 
-    if (!useDefault && !qualityList.includes(splitCommand[2])) {
+    if (!useDefault && !useDefaultQuality && !qualityList.includes(splitCommand[2])) {
       userMessage.channel.send(`Incorrect quality specified as second argument. ${usage}`);
       return;
     }
 
-    const qualityArg = useDefault ? 'medium' : splitCommand[2];
+    const qualityArg = useDefaultQuality ? 'medium' : splitCommand[2];
 
     if (args.length === 0) {
       userMessage.channel.send(`No code given. ${usage}`);
