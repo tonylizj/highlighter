@@ -6,7 +6,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new Discord.Client();
-client.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN).then(() => {
+  client.user!.setPresence({
+    status: 'online',
+    afk: false,
+    activity: {
+      name: 'use "/hl help"',
+      type: 'PLAYING',
+    },
+  });
+});
 
 const prefix = '/';
 const triggerName = 'hl';
@@ -41,7 +50,7 @@ Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <la
 Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
 See https://highlighter-api.herokuapp.com/ for list of supported languages.
 
-Github: https://github.com/tonylizj
+Github: https://github.com/tonylizj/highlighter
 \`\`\``);
       return;
     }
