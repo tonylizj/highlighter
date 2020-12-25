@@ -55,6 +55,11 @@ Github: https://github.com/tonylizj/highlighter
       return;
     }
 
+    if (args.length === 1 && args[0] === 'flower') {
+      message.channel.send('https://play.google.com/store/apps/details?id=com.flowerid');
+      return;
+    }
+
     let useDefault = false;
 
     if (splitCommand.length === 1) {
@@ -97,7 +102,7 @@ Github: https://github.com/tonylizj/highlighter
     }).pipe(file);
     file.on('close', () => {
       const timeTaken = Date.now() - message.createdTimestamp;
-      message.reply(`Request finished. This request had a latency of ${timeTaken}ms. Using language: ${language} and quality: ${qualityArg}`, {
+      message.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`, {
         files: ['./out.png'],
       });
     });
