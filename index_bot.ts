@@ -24,21 +24,21 @@ const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
 const apiLocation = 'https://highlighter-api.herokuapp.com/';
 
-client.on('message', async (message) => {
-  if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
-  let commandBody = message.content.slice(prefix.length);
+client.on('message', async (userMessage) => {
+  if (userMessage.author.bot) return;
+  if (!userMessage.content.startsWith(prefix)) return;
+  let commandBody = userMessage.content.slice(prefix.length);
   commandBody = commandBody.trim();
   let args = commandBody.split(/\s+/);
   const shifted = args.shift();
   if (shifted === undefined) {
-    console.log(`error: ${message}`);
+    console.log(`error: ${userMessage}`);
     return;
   }
   const command = shifted.toLowerCase();
 
   if (command === 'highlighter' || command === 'highlight') {
-    message.channel.send(usage);
+    userMessage.channel.send(usage);
     return;
   }
 
@@ -49,7 +49,7 @@ client.on('message', async (message) => {
     console.log(args);
 
     if (args.length === 1 && args[0] === 'help') {
-      message.channel.send(`\`\`\`
+      userMessage.channel.send(`\`\`\`
 Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <language> is the language of your code, <quality> is one of medium, high, extreme.
 Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
 See https://highlighter-api.herokuapp.com/ for list of supported languages.
@@ -60,42 +60,42 @@ Github: https://github.com/tonylizj/highlighter
     }
 
     if (args.length === 1 && args[0] === 'flower') {
-      message.channel.send('https://play.google.com/store/apps/details?id=com.flowerid');
+      userMessage.channel.send('https://play.google.com/store/apps/details?id=com.flowerid');
       return;
     }
 
     let useDefault = false;
 
     if (splitCommand.length === 1) {
-      message.channel.send(`Arguments not given. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to typescript and medium...`);
+      userMessage.channel.send(`Arguments not given. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to typescript and medium...`);
       useDefault = true;
     }
 
     if (splitCommand.length > 3) {
-      message.channel.send(`Too many arguments given. ${usage}`);
+      userMessage.channel.send(`Too many arguments given. ${usage}`);
       return;
     }
 
     if (!useDefault && !langList.includes(splitCommand[1])) {
-      message.channel.send(`Incorrect language specified as first argument. ${usage}`);
+      userMessage.channel.send(`Incorrect language specified as first argument. ${usage}`);
       return;
     }
 
     const language = useDefault ? 'typescript' : splitCommand[1];
 
     if (!useDefault && !qualityList.includes(splitCommand[2])) {
-      message.channel.send(`Incorrect quality specified as second argument. ${usage}`);
+      userMessage.channel.send(`Incorrect quality specified as second argument. ${usage}`);
       return;
     }
 
     const qualityArg = useDefault ? 'medium' : splitCommand[2];
 
     if (args.length === 0) {
-      message.channel.send(`No code given. ${usage}`);
+      userMessage.channel.send(`No code given. ${usage}`);
       return;
     }
 
-    message.channel.send(`Request received. Calling highlighter API at ${apiLocation}...`);
+    const receivedMessage = userMessage.channel.send(`Request received. Calling highlighter API at ${apiLocation}...`);
     const file = fs.createWriteStream('out.png');
     request.post(apiLocation, {
       form: {
@@ -104,11 +104,13 @@ Github: https://github.com/tonylizj/highlighter
         quality: qualityArg,
       },
     }).pipe(file);
-    file.on('close', () => {
-      const timeTaken = Date.now() - message.createdTimestamp;
-      message.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`, {
+    file.on('close', async () => {
+      const timeTaken = Date.now() - userMessage.createdTimestamp;
+      userMessage.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`, {
         files: ['./out.png'],
       });
+      userMessage.delete();
+      (await receivedMessage).delete();
     });
   }
 });
