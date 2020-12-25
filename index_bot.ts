@@ -1,10 +1,13 @@
 import Discord from 'discord.js';
 import fs from 'fs';
 import request from 'request';
+import dotenv from 'dotenv';
 import config from './config.json';
 
+dotenv.config();
+
 const client = new Discord.Client();
-client.login(config.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
 
 const prefix = '/';
 const triggerName = 'hl';
