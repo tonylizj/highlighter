@@ -28,7 +28,7 @@ client.on('message', async (message) => {
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
   const commandBody = message.content.slice(prefix.length);
-  const args = commandBody.split(' ');
+  const args = commandBody.trim().split(/\s+/);
   const shifted = args.shift();
   if (shifted === undefined) {
     console.log(`error: ${message}`);
@@ -42,7 +42,8 @@ client.on('message', async (message) => {
   }
 
   if (command.split('_')[0] === triggerName) {
-    const splitCommand = command.split('_');
+    const splitCommand = command/* .split('\n')[0] */.split('_');
+
     console.log(args);
 
     if (args.length === 1 && args[0] === 'help') {
