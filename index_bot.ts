@@ -45,7 +45,7 @@ client.on('message', async (message) => {
   if (command.split('_')[0] === triggerName) {
     const splitCommand = command/* .split('\n')[0] */.split('_');
 
-    args = commandBody.substring(command.length, commandBody.length - 1).trim().split(' ');
+    args = commandBody.substring(command.length, commandBody.length).trim().split(' ');
     console.log(args);
 
     if (args.length === 1 && args[0] === 'help') {
