@@ -22,6 +22,7 @@ const triggerName = 'hl';
 const langList = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua', 'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby', 'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker', 'markup', 'css', 'clike', 'javascript'];
 const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
+const apiLocation = 'https://highlighter-api.herokuapp.com/';
 
 client.on('message', async (message) => {
   if (message.author.bot) return;
@@ -91,9 +92,9 @@ Github: https://github.com/tonylizj/highlighter
       return;
     }
 
-    message.channel.send('Request received. Making API call...');
+    message.channel.send(`Request received. Calling highlighter API at ${apiLocation}...`);
     const file = fs.createWriteStream('out.png');
-    request.post('https://highlighter-api.herokuapp.com/', {
+    request.post(apiLocation, {
       form: {
         text: args.join(' '),
         lang: language,
