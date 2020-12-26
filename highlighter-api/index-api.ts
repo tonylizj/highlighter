@@ -3,7 +3,7 @@ import express from 'express';
 import nodeHtmlToImage from 'node-html-to-image';
 import { AddressInfo } from 'net';
 
-import styles from './style'; // eslint-disable-line
+import styles from './style/style'; // eslint-disable-line
 
 const loadLanguages: Function = require('prismjs/components/');
 
@@ -106,11 +106,11 @@ app.post('/', async (req, res) => {
   }
 });
 
-// app.post('/downloadHTML', async (req, res) => {
-//   const { text, lang, quality }: { text: string, lang: string, quality: string } = req.body;
-//   const inputHTML = generateInputHTML(text, lang, quality);
-//   res.send(inputHTML);
-// });
+app.post('/downloadHTML', async (req, res) => {
+  const { text, lang, quality }: { text: string, lang: string, quality: string } = req.body;
+  const inputHTML = generateInputHTML(text, lang, quality);
+  res.send(inputHTML);
+});
 
 const listenport: number = parseInt(`${process.env.PORT}`, 10) || 5000;
 

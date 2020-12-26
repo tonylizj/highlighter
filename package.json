@@ -2,15 +2,15 @@
   "name": "highlighter",
   "version": "1.0.0",
   "description": "",
-  "main": "/compiled/index.js",
+  "main": "/highlighter-api/index-api.ts",
   "engines": {
     "node": "14.x",
     "npm": "6.x"
   },
   "scripts": {
     "start": "concurrently \"npm run run-api\" \"npm run run-bot\"",
-    "run-api": "ts-node .",
-    "run-bot": "ts-node index_bot.ts",
+    "run-api": "ts-node ./highlighter-api/index-api.ts",
+    "run-bot": "ts-node ./highlighter-bot/index-bot.ts",
     "//compile": "tsc --newLine \"lf\"",
     "//compile-and-start": "tsc --newLine \"lf\" && node ./compiled",
     "test": "echo \"Error: no test specified\" && exit 1"
