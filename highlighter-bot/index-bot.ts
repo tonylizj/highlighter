@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const testingMode = true;
+const testingMode = false;
 
 const prefix = '/';
 const triggerName = testingMode ? 'hl-t' : 'hl';
