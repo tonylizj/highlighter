@@ -69,7 +69,7 @@ Github: https://github.com/tonylizj/highlighter
     let useDefaultQuality = false;
 
     if (splitCommand.length === 1) {
-      userMessage.channel.send(`Arguments not given. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to typescript and medium...`);
+      userMessage.channel.send(`Arguments not given. ${usage} if unintentional. Defaulting to typescript and medium...`);
       useDefault = true;
       useDefaultQuality = true;
     }
