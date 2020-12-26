@@ -1,5 +1,5 @@
 const text = (fontSize: number) => `
-/* PrismJS 1.22.0
+/* Created for PrismJS 1.22.0 by https://github.com/tonylizj
 /**
  * Styling based on One Dark Pro theme: https://github.com/Binaryify/OneDark-Pro
  */
