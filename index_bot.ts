@@ -113,7 +113,7 @@ Github: https://github.com/tonylizj/highlighter
     { responseType: 'arraybuffer' });
 
     const timeTaken = Date.now() - userMessage.createdTimestamp;
-    userMessage.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`,
+    userMessage.reply(`request completed. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`,
       new Discord.MessageAttachment(Buffer.from(image.data), 'image.png'));
     userMessage.delete();
     (await receivedMessage).delete();
