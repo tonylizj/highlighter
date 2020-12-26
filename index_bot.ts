@@ -21,7 +21,7 @@ const triggerName = 'hl';
 const langList = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua', 'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby', 'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker', 'markup', 'css', 'clike', 'javascript'];
 const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
-const localTesting = true;
+const localTesting = false;
 const apiLocation = localTesting ? 'http://localhost:5000/' : 'https://highlighter-api.herokuapp.com/';
 
 client.on('message', async (userMessage) => {
