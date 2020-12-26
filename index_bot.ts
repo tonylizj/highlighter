@@ -1,6 +1,5 @@
 import Discord from 'discord.js';
-import fs from 'fs';
-import request from 'request';
+import axios from 'axios';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -22,7 +21,8 @@ const triggerName = 'hl';
 const langList = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua', 'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby', 'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker', 'markup', 'css', 'clike', 'javascript'];
 const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
-const apiLocation = 'https://highlighter-api.herokuapp.com/';
+const localTesting = true;
+const apiLocation = localTesting ? 'http://localhost:5000/' : 'https://highlighter-api.herokuapp.com/';
 
 client.on('message', async (userMessage) => {
   if (userMessage.author.bot) return;
@@ -52,6 +52,7 @@ client.on('message', async (userMessage) => {
       userMessage.channel.send(`\`\`\`
 Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <language> is the language of your code, <quality> is one of medium, high, extreme.
 Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
+If only one argument is given, it will be parsed as <language>.
 See https://highlighter-api.herokuapp.com/ for list of supported languages.
 
 Github: https://github.com/tonylizj/highlighter
@@ -73,7 +74,7 @@ Github: https://github.com/tonylizj/highlighter
       useDefaultQuality = true;
     }
 
-    if (splitCommand.length === 1) {
+    if (splitCommand.length === 2) {
       userMessage.channel.send(`Only 1 argument given. This will be parsed as language. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to medium...`);
       useDefaultQuality = true;
     }
@@ -97,27 +98,24 @@ Github: https://github.com/tonylizj/highlighter
 
     const qualityArg = useDefaultQuality ? 'medium' : splitCommand[2];
 
-    if (args.length === 0) {
+    if (args.length === 0 || (args.length === 1 && args[0] === '')) {
       userMessage.channel.send(`No code given. ${usage}`);
       return;
     }
 
     const receivedMessage = userMessage.channel.send(`Request received. Calling highlighter API at ${apiLocation}...`);
-    const file = fs.createWriteStream('out.png');
-    request.post(apiLocation, {
-      form: {
-        text: args.join(' '),
-        lang: language,
-        quality: qualityArg,
-      },
-    }).pipe(file);
-    file.on('close', async () => {
-      const timeTaken = Date.now() - userMessage.createdTimestamp;
-      userMessage.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`, {
-        files: ['./out.png'],
-      });
-      userMessage.delete();
-      (await receivedMessage).delete();
-    });
+
+    const image = await axios.post(apiLocation, {
+      text: args.join(' '),
+      lang: language,
+      quality: qualityArg,
+    },
+    { responseType: 'arraybuffer' });
+
+    const timeTaken = Date.now() - userMessage.createdTimestamp;
+    userMessage.reply(`request finished. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`,
+      new Discord.MessageAttachment(Buffer.from(image.data), 'image.png'));
+    userMessage.delete();
+    (await receivedMessage).delete();
   }
 });
