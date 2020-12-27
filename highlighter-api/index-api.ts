@@ -85,7 +85,7 @@ const generateInputHTML = (text: string, lang: string, quality: string) => {
 };
 
 app.get('/', (req, res) => {
-  res.sendFile('html/sendPost.html', { root: '.' });
+  res.sendFile('./html/sendPost.html');
 });
 
 app.post('/', async (req, res) => {

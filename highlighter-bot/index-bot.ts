@@ -12,7 +12,7 @@ const langList = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'j
 const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
 const apiLocation = testingMode ? 'http://localhost:5000/' : 'https://highlighter-api.herokuapp.com/';
-const apiLocationHTML = testingMode ? 'http://localhost:5000/downloadHTML' : 'https://highlighter-api.herokuapp.com/downloadHTML';
+const apiLocationHTML = `${apiLocation}/downloadHTML`;
 const helpMessage = `\`\`\`
 Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <language> is the language of your code, <quality> is one of medium, high, extreme.
 Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
@@ -21,7 +21,7 @@ See https://highlighter-api.herokuapp.com/ for list of supported languages.
 
 Github: https://github.com/tonylizj/highlighter
 \`\`\``;
-
+const FlowerIDUrl = 'https://play.google.com/store/apps/details?id=com.flowerid';
 interface POSTParams {
   codeArray: string[];
   language: string;
@@ -41,7 +41,7 @@ const generatePOSTParams = (
   }
 
   if (codeArray.length === 1 && codeArray[0] === 'flower') {
-    userMessage.channel.send('https://play.google.com/store/apps/details?id=com.flowerid');
+    userMessage.channel.send(FlowerIDUrl);
     return null;
   }
 
