@@ -22,6 +22,7 @@ See https://highlighter-api.herokuapp.com/ for list of supported languages.
 Github: https://github.com/tonylizj/highlighter
 \`\`\``;
 const FlowerIDUrl = 'https://play.google.com/store/apps/details?id=com.flowerid';
+
 interface POSTParams {
   codeArray: string[];
   language: string;

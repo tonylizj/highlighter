@@ -85,7 +85,7 @@ const generateInputHTML = (text: string, lang: string, quality: string) => {
 };
 
 app.get('/', (req, res) => {
-  res.sendFile('./html/sendPost.html');
+  res.sendFile('html/sendPost.html', { root: './highlighter-api' });
 });
 
 app.post('/', async (req, res) => {
