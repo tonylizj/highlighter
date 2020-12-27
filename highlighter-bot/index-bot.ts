@@ -12,7 +12,7 @@ const langList = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'j
 const qualityList = ['medium', 'high', 'extreme'];
 const usage = `Use "${prefix}${triggerName} help" for usage`;
 const apiLocation = testingMode ? 'http://localhost:5000/' : 'https://highlighter-api.herokuapp.com/';
-const apiLocationHTML = `${apiLocation}/downloadHTML`;
+const apiLocationHTML = `${apiLocation}downloadHTML`;
 const helpMessage = `\`\`\`
 Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <language> is the language of your code, <quality> is one of medium, high, extreme.
 Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
