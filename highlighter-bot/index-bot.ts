@@ -19,8 +19,7 @@ Failing to specify the above arguments will result in highlighter defaulting to 
 If only one argument is given, it will be parsed as <language>.
 See https://highlighter-api.herokuapp.com/ for list of supported languages.
 
-Github: https://github.com/tonylizj/highlighter
-\`\`\``;
+Github: https://github.com/tonylizj/highlighter\`\`\``;
 const FlowerIDUrl = 'https://play.google.com/store/apps/details?id=com.flowerid';
 
 interface POSTParams {
@@ -38,6 +37,12 @@ const generatePOSTParams = (
 
   if (codeArray.length === 1 && codeArray[0] === 'help') {
     userMessage.channel.send(helpMessage);
+    return null;
+  }
+
+  if (codeArray.length === 1 && codeArray[0] === 'helpNoCredit') {
+    userMessage.channel.send(helpMessage.split('\n').slice(0, -1).join('\n'));
+    userMessage.delete();
     return null;
   }
 
