@@ -15,6 +15,13 @@ loadLanguages(additionalSupportedLanguages);
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Authorization, x-id, Content-Length, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
 app.use('/favicon.ico', express.static('images/favicon.ico'));
 
 const addSurround = (text: string, fontSize: number) => `${`<html><head>
