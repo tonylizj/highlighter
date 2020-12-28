@@ -41,7 +41,7 @@ const generatePOSTParams = (
   }
 
   if (codeArray.length === 1 && codeArray[0] === 'helpNoCredit') {
-    userMessage.channel.send(helpMessage.split('\n').slice(0, -1).join('\n'));
+    userMessage.channel.send(`${helpMessage.split('\n').slice(0, -1).join('\n')}\`\`\``);
     userMessage.delete();
     return null;
   }
