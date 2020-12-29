@@ -1,10 +1,17 @@
 # highlighter - An API written in Node.js that syntax highlights code as well as a Discord bot that uses this API to syntax highlight code in chat.
 
-There are two parts:
+Run both at the same time!
+```
+npm start
+```
 
-## Discord Bot That Syntax Highlights Code
+Or one at a time:
+
+## Discord Bot
 
 Written in Node.js with Discord.js
+
+Use https://discord.com/api/oauth2/authorize?client_id=791903902874206258&permissions=10240&scope=bot to add to your server.
 
 To build: 
 ```
@@ -14,7 +21,7 @@ npm start-bot
 For security reasons, you need to input your own bot token into a .env file. This is not provided.
 
 
-## API That Syntax Highlights Code
+## API
 
 Written in Node.js and Express
 
@@ -22,9 +29,4 @@ To build:
 ```
 npm install
 npm start-api
-```
-
-Or run both at the same time!
-```
-npm start
 ```
