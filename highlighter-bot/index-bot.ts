@@ -14,10 +14,25 @@ const usage = `Use "${prefix}${triggerName} help" for usage`;
 const apiLocation = testingMode ? 'http://localhost:5000/' : 'https://highlighter-api.herokuapp.com/';
 const apiLocationHTML = `${apiLocation}downloadHTML`;
 const helpMessage = `\`\`\`
-Usage: "${prefix}${triggerName}_<language>_<quality> <your code here>" where <language> is the language of your code, <quality> is one of medium, high, extreme.
-Failing to specify the above arguments will result in highlighter defaulting to typescript and medium.
-If only one argument is given, it will be parsed as <language>.
-See https://highlighter-api.herokuapp.com/ for list of supported languages.
+Usage: "${prefix}${triggerName}_language_quality code" where language is the language of your code, quality is one of: medium, high, extreme.
+If only one argument is given, it will be parsed as language.
+If no argumentss are given, highlighter will default to typescript and medium.
+
+Examples:
+/hl const a = 3;
+
+/hl_python_high print(range(8)[2])
+
+/hl_cpp
+if (winner == nullptr) {
+  prop->setMortgaged(0);
+  auto ac = dynamic_pointer_cast<AcademicBuilding>(prop);
+  if (ac != nullptr) {
+      ac->setNumImpr(0);
+  }
+}
+
+Supported languages: ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua', 'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby', 'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker', 'markup', 'css', 'clike', 'javascript']
 
 Github: https://github.com/tonylizj/highlighter\`\`\``;
 const FlowerIDUrl = 'https://play.google.com/store/apps/details?id=com.flowerid';
