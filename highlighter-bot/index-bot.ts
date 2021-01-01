@@ -111,7 +111,7 @@ const generatePOSTParams = (
 
 const client = new Discord.Client();
 
-client.login(testingMode ? process.env.BOT_TOKEN_TESTING : process.env.BOT_TOKEN).then(() => {
+client.login(testingMode ? process.env.BOT_TOKEN_HL_TESTING : process.env.BOT_TOKEN_HL).then(() => {
   client.user!.setPresence({
     status: 'online',
     afk: false,
