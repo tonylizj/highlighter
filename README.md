@@ -2,6 +2,7 @@
 
 Run both at the same time!
 ```
+npm install
 npm start
 ```
 
