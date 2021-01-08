@@ -1,5 +1,7 @@
 import prism from 'prismjs';
 import express from 'express';
+import favicon from 'serve-favicon';
+import path from 'path';
 import nodeHtmlToImage from 'node-html-to-image';
 import { AddressInfo } from 'net';
 
@@ -22,7 +24,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   next();
 });
-app.use('/favicon.ico', express.static('images/favicon.ico'));
+app.use(favicon(path.join(__dirname, 'image', 'favicon.ico')));
 
 const addSurround = (text: string, fontSize: number) => `${`<html><head>
 <link rel="stylesheet" href="style.css">
