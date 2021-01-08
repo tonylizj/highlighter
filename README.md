@@ -1,5 +1,21 @@
 # highlighter - An API written in Node.js that syntax highlights code as well as a Discord bot that uses this API to syntax highlight code in chat.
 
+## To use highlighter, you can:
+
+Visit https://tonylizj.github.io/highlighter-ui/ for a user interface.
+
+Use https://discord.com/api/oauth2/authorize?client_id=791903902874206258&permissions=10240&scope=bot to add the Discord bot to your server.
+
+Send a POST request to https://highlighter-api.herokuapp.com/ with three parameters: "text" containing a code block, "lang" containing the name of the language of your code, and "quality" containing one of "medium", "high", or "extreme". Visit the link above (or GET request) to see the list of supported languages.
+
+Example: 
+```
+{ text: "const a = 5;", lang: "typescript", quality: "high" }
+```
+
+
+# Building from source:
+
 Run both at the same time!
 ```
 npm install
@@ -11,8 +27,6 @@ Or one at a time:
 ## Discord Bot
 
 Written in Node.js with Discord.js
-
-Use https://discord.com/api/oauth2/authorize?client_id=791903902874206258&permissions=10240&scope=bot to add to your server.
 
 To build: 
 ```
