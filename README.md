@@ -1,5 +1,5 @@
 <p align="left">
-    <img src="https://github.com/tonylizj/highlighter-ui/blob/master/public/favicon.ico" height="64">
+    <img src="https://github.com/tonylizj/highlighter-ui/blob/master/public/ic_launcher.png" height="128">
 </p>
 
 # highlighter - An API written in Node.js that syntax highlights code as well as a Discord bot that uses this API to syntax highlight code in chat.
