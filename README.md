@@ -14,7 +14,7 @@ Send a POST request to https://highlighter-api.herokuapp.com/ with three paramet
 
 Example: 
 ```
-{ text: "const a = 5;", lang: "typescript", quality: "high" }
+{ "text": "const a = 5;", "lang": "typescript", "quality": "high" }
 ```
 
 
