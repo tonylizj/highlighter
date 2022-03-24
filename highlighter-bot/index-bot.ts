@@ -44,7 +44,9 @@ interface POSTParams {
 }
 
 const generatePOSTParams = (
-  command: string, commandBody: string, userMessage: Discord.Message,
+  command: string,
+  commandBody: string,
+  userMessage: Discord.Message,
 ): POSTParams | null => {
   const splitCommand = command/* .split('\n')[0] */.split('_');
 
@@ -71,14 +73,14 @@ const generatePOSTParams = (
 
   if (splitCommand.length === 1) {
     const msg = userMessage.channel.send(`Arguments not given. ${usage} if unintentional. Defaulting to typescript and medium...`);
-    msg.then((x) => x.delete({ timeout: 5000 }));
+    msg.then((x) => setTimeout(() => x.delete(), 5000));
     useDefault = true;
     useDefaultQuality = true;
   }
 
   if (splitCommand.length === 2) {
     const msg = userMessage.channel.send(`Only 1 argument given. This will be parsed as language. Use "${prefix}${triggerName} help for usage" if unintentional. Defaulting to medium...`);
-    msg.then((x) => x.delete({ timeout: 5000 }));
+    msg.then((x) => setTimeout(() => x.delete(), 5000));
     useDefaultQuality = true;
   }
 
@@ -109,16 +111,24 @@ const generatePOSTParams = (
   return { codeArray, language, qualityArg };
 };
 
-const client = new Discord.Client();
+const client = new Discord.Client({
+  intents: [
+    Discord.Intents.FLAGS.GUILDS,
+    Discord.Intents.FLAGS.GUILD_MESSAGES,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.DIRECT_MESSAGES,
+    Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+  ],
+});
 
 client.login(testingMode ? process.env.BOT_TOKEN_HL_TESTING : process.env.BOT_TOKEN_HL).then(() => {
   client.user!.setPresence({
     status: 'online',
     afk: false,
-    activity: {
+    activities: [{
       name: `use "${prefix}${triggerName} help"`,
       type: 'PLAYING',
-    },
+    }],
   });
 });
 
@@ -139,25 +149,28 @@ client.on('message', async (userMessage) => {
     return;
   }
 
-  if (command.split('_')[0] === triggerName) {
-    const ret = generatePOSTParams(
-      command, commandBody, userMessage,
-    );
+  if (command.split('_')[0] === triggerName || command.split('_')[0] === `${triggerName}-text`) {
+    const ret = generatePOSTParams(command, commandBody, userMessage);
 
     if (ret === null) {
       return;
     }
 
+    const sendText = command.split('_')[0] === `${triggerName}-text`;
+
     const { codeArray, language, qualityArg } = ret;
 
     const receivedMessage = userMessage.channel.send(`Request received. Calling highlighter API at ${apiLocation}...`);
 
-    const imagePromise = axios.post(apiLocation, {
-      text: codeArray.join(' '),
-      lang: language,
-      quality: qualityArg,
-    },
-    { responseType: 'arraybuffer' });
+    const imagePromise = axios.post(
+      apiLocation,
+      {
+        text: codeArray.join(' '),
+        lang: language,
+        quality: qualityArg,
+      },
+      { responseType: 'arraybuffer' },
+    );
 
     const HTMLPromise = axios.post(apiLocationHTML, {
       text: codeArray.join(' '),
@@ -168,10 +181,13 @@ client.on('message', async (userMessage) => {
     const [image, HTML] = await Promise.all([imagePromise, HTMLPromise]);
 
     const timeTaken = Date.now() - userMessage.createdTimestamp;
-    userMessage.reply(`request completed. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`,
-      [new Discord.MessageAttachment(Buffer.from(HTML.data), 'generated.html'), new Discord.MessageAttachment(Buffer.from(image.data), 'image.png')],
-    ); // eslint-disable-line
-    userMessage.delete();
+
+    const files = sendText ? [(new Discord.MessageAttachment(Buffer.from(HTML.data), 'generated.html')), new Discord.MessageAttachment(Buffer.from(image.data), 'image.png')] : [new Discord.MessageAttachment(Buffer.from(image.data), 'image.png')];
+
+    await userMessage.reply({
+      content: `Request completed. This request had a latency of ${timeTaken}ms and was made using language: ${language} and quality: ${qualityArg}.`,
+      files,
+    });
     (await receivedMessage).delete();
   }
 });
