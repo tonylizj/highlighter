@@ -1,5 +1,6 @@
 import prism from 'prismjs';
-import express from 'express';
+import loadLanguages from 'prismjs/components/';
+import express, { RequestHandler } from 'express';
 import favicon from 'serve-favicon';
 import path from 'path';
 import nodeHtmlToImage from 'node-html-to-image';
@@ -7,16 +8,14 @@ import { AddressInfo } from 'net';
 
 import styles from './style/style'; // eslint-disable-line
 
-const loadLanguages: Function = require('prismjs/components/');
-
 const baseLanguages = ['markup', 'css', 'clike', 'javascript'];
 const additionalSupportedLanguages = ['typescript', 'c', 'cpp', 'csharp', 'python', 'java', 'go', 'julia', 'kotlin', 'haskell', 'lisp', 'lua', 'makefile', 'markdown', 'matlab', 'mongodb', 'objectivec', 'pascal', 'perl', 'php', 'r', 'racket', 'ruby', 'rust', 'scala', 'scheme', 'swift', 'visual-basic', 'json', 'latex', 'graphql', 'docker'];
 
 loadLanguages(additionalSupportedLanguages);
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }) as RequestHandler);
+app.use(express.json() as RequestHandler);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -72,8 +71,10 @@ const addCutOffIndicator = (text: string, quality: string) => {
 
 const processToHTML = (text: string, lang: string, quality: string, cutoff: boolean) => {
   if (cutoff) {
-    return addSurround(addCutOffIndicator(prism.highlight(text, getGrammar(lang), lang), quality),
-      getQuality(quality));
+    return addSurround(
+      addCutOffIndicator(prism.highlight(text, getGrammar(lang), lang), quality),
+      getQuality(quality),
+    );
   }
   return addSurround(prism.highlight(text, getGrammar(lang), lang), getQuality(quality));
 };
@@ -101,7 +102,6 @@ app.post('/', async (req, res) => {
   const { text, lang, quality }: { text: string, lang: string, quality: string } = req.body;
   const inputHTML = generateInputHTML(text, lang, quality);
   if (inputHTML !== '') {
-    // res.send(inputHtml);
     const image = await nodeHtmlToImage({
       html: inputHTML,
       puppeteerArgs: {
@@ -110,6 +110,7 @@ app.post('/', async (req, res) => {
     });
     res.writeHead(200, { 'Content-disposition': 'attachment; filename=generatedPicture.png', 'Content-Type': 'image/png' });
     res.end(image, 'binary');
+    console.log('Sent image');
   } else {
     res.end(`Invalid language specified: '${lang}' or invalid quality specified: '${quality}'. No result can be generated.`);
   }
