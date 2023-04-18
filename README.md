@@ -10,7 +10,7 @@ Visit https://tonylizj.github.io/highlighter-ui/ for a user interface.
 
 Use https://discord.com/api/oauth2/authorize?client_id=791903902874206258&permissions=10240&scope=bot to add the Discord bot to your server.
 
-Send a POST request to https://turnkey-delight-351100.uk.r.appspot.com/ with three parameters: "text" containing a code block, "lang" containing the name of the language of your code, and "quality" containing one of "medium", "high", or "extreme". Visit the link above (or GET request) to see the list of supported languages.
+Send a POST request to http://35.206.84.30/ with three parameters: "text" containing a code block, "lang" containing the name of the language of your code, and "quality" containing one of "medium", "high", or "extreme". Visit the link above (or GET request) to see the list of supported languages.
 
 Example: 
 ```

@@ -8,7 +8,7 @@ const loginToken = PROD ? process.env.BOT_TOKEN_HL : process.env.BOT_TOKEN_HL_TE
 const appID = PROD ? process.env.APP_ID_HL : process.env.APP_ID_HL_TESTING;
 const prefix = '/';
 const triggerName = PROD ? 'hl' : 'hl-t';
-const apiLocation = PROD ? 'https://turnkey-delight-351100.uk.r.appspot.com/' : 'http://localhost:5000/';
+const apiLocation = PROD ? 'http://35.206.84.30/' : 'http://localhost:5000/';
 const apiLocationHTML = `${apiLocation}downloadHTML`;
 const helpMessage = `\`\`\`
 Usage: "${prefix}${triggerName}".
